@@ -16,7 +16,24 @@ function inputInt(){
 	return $choice
 }
 
-
+function UserNameValidation(){
+	param([array]$Users, [string]$input)
+	
+	$userFound = $false
+	for ($i = 0; $i -lt $Users.Length; $i++){
+		if $input -eq $Users[$i].getUserName(){
+			$userFound = $true
+		}
+		else{
+			continue
+		}
+	}
+	if $userFound{
+		return $true
+	}
+	else{
+		return $false
+	}
 
 
 

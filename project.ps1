@@ -1,3 +1,6 @@
+# Number of days considered Threshold
+$InactiveThreshold = 60
+
 function Print-Menu{
 	#Clears user screen for a clean look of the menu
 	Clear-Host 

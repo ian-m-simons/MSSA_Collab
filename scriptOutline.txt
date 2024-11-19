@@ -1,9 +1,0 @@
-get users who haven't logged in in x number of days
-
-ask person running command what they would like to do with users
-
-create menu of options
-
-complete tasks as appropriate
-
-error handling 

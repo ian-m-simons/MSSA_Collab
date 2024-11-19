@@ -4,4 +4,6 @@
 $users = Get-ADUser -Filter * -Properties LastLogonDate
 
 # Need to figure out variable being used to inactive days for this piece. 
-$inactiveUsers = $users | Where-Object { $_.LastLogondate -lt $inactiveDate
+$inactiveUsers = $users | Where-Object { $_.LastLogondate -lt $inactiveDate -or !$_.LasLogonDate}
+
+

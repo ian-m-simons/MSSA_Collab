@@ -1,4 +1,4 @@
-# Number of days considered Threshold
+# Variable for number of days considered Threshold
 $InactiveThreshold = 60
 
 function Print-Menu{
@@ -9,7 +9,7 @@ function Print-Menu{
 	write-host "2) fetch inactive users"
 	write-host "3) change all inactive users"
 	write-host "4) change individual inactive users"
- 	write-host "Q) Enter Q to Quit"
+ 	write-host "0) Enter 0 to Quit"
 }
 
 #Option 1 Function - Josh
@@ -57,7 +57,7 @@ do {
 	    Set-InactiveUser
 
         }
-        'Q' {
+        '0' {
             return
         }
         default {

@@ -17,11 +17,11 @@ function inputInt(){
 }
 
 function UserNameValidation(){
-	param([array]$Users, [string]$input)
+	param([array]$Users, [string]$individual)
 	
 	$userFound = $false
 	for ($i = 0; $i -lt $Users.Length; $i++){
-		if $input -eq $Users[$i].getUserName(){
+		if $individual -eq $Users[$i].UserPrincipalName(){
 			$userFound = $true
 		}
 		else{

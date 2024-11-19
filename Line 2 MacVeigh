@@ -1,1 +1,7 @@
 # Fetch inactive users 
+
+# This might get all accounts in the domain.
+$users = Get-ADUser -Filter * -Properties LastLogonDate
+
+# Need to figure out variable being used to inactive days for this piece. 
+$inactiveUsers = $users | Where-Object { $_.LastLogondate -lt $inactiveDate

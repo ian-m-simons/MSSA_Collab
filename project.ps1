@@ -1,6 +1,25 @@
 # Variable for number of days considered Threshold
 $InactiveThreshold = 60
 
+function inputInt(){
+        param ([string]$prompt)
+
+        $choice = ""
+        $success = $false
+        while ($success -eq $false){
+                $choice = read-host($prompt)
+                try{
+                        $choice = [int]$choice
+                        $success = $true
+                }
+                catch{
+                        write-host "[ERROR] Input must be integer only"
+                }
+        }
+        return $choice
+}
+
+
 function Print-Menu{
 	#Clears user screen for a clean look of the menu
 	Clear-Host 
@@ -34,7 +53,7 @@ function Set-InactiveUser{
 
 do {
     Print-Menu
-    $choice = read-host "please enter your choice"
+    $choice = inputInt("please enter your choice")
     
     switch ($choice) {
         '1' { # Josh 

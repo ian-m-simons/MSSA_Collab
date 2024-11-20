@@ -62,13 +62,13 @@ function Disable-InactiveUser{
 
     While($UserInput -ne "done"){
         $UInputSuccess = $false
-        <#While($UInputSuccess -eq $false){
+        While($UInputSuccess -eq $false){
             $UInputSuccess = UserNameValidation($UserInput)
             if $UInputSuccess -eq $false {
                 Write-Host "Error: User not found"
                 $UserInput = read-host "User $users.Length name: "
             }
-        }#>
+        }
         $users += $UserInput
         $UserInput = read-host "User "($users.Length + 1)" name: "
     }

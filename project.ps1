@@ -2,6 +2,11 @@
 $global:inactiveDays = ""
 $global:inactiveUsers = ""
 $global:inactiveThreshold = ""
+
+#########################
+# Menu Option Functions #
+#########################
+
 function Get-Menu{
 	#Clears user screen for a clean look of the menu
 	
@@ -16,7 +21,7 @@ function Get-Menu{
 #Option 1 Function - Josh
 function Set-InactivePeriod{
 	#Paste code here#
-    $global:inactiveDays = inputint "Enter number of days for inactivity threshold"
+    $global:inactiveDays = inputInt "Enter number of days for inactivity threshold"
  	$global:inactiveThreshold = (Get-Date).AddDays(-$inactiveDays)
     
     # Retrieves all users in domain I believe? 
@@ -33,20 +38,92 @@ function Set-InactivePeriod{
 #Option 2 Function - Brittney
 function Get-InactiveUsers{
 	#Paste code here#
-    $inactiveUsers | Select-Object Name, UserPrincipalName, LastLogonDate | Format-Table -AutoSize
+    $inactiveUsers | Select-Object Name, SamAccountName, LastLogonDate | Format-Table -AutoSize
 }
 
 #Option 3 Function - 
-function Set-AllInactiveUsers{
+function Disable-AllInactiveUsers{
 	#Paste code here#
 }
 
 #Option 4 Function - Luke
-function Set-InactiveUser{
-	#Paste code here#
+function Disable-InactiveUser{
+	param([array]$ListOfUsers)
+
+    $users = @()
+    $UserInput = ""
+
+
+    #prompt for user's names. Assemble them in an array
+
+    Write-Host("Enter the names of users to modify, or type done")
+    $UserInput = read-host "User "($users.Length + 1)" name: "
+
+
+    While($UserInput -ne "done"){
+        $UInputSuccess = $false
+        <#While($UInputSuccess -eq $false){
+            $UInputSuccess = UserNameValidation($UserInput)
+            if $UInputSuccess -eq $false {
+                Write-Host "Error: User not found"
+                $UserInput = read-host "User $users.Length name: "
+            }
+        }#>
+        $users += $UserInput
+        $UserInput = read-host "User "($users.Length + 1)" name: "
+    }
+
+    Write-Host "What would you like to do with these Users?"
+    Write-Host "1: Disable Users"
+    Write-Host "2: Come Back later I can't do anything else yet"
+
+    $UserAction = inputInt("Option: ")
+
+    if($UserAction -eq 1){
+        foreach($U in $users){
+            Disable-ADAccount -identity $U
+            Write-Host "'n$U's Account has been disabled`n"
+
+            # Maybe we can incorporate 
+            Get-ADUser -Filter "Name -Like '*$U*'" | ForEach-OBject{
+                Write-Host "Name: $($_.Name)"
+                Write-Host "Enabled: $($_.Enabled)`n"
+            }
+
+        }
+    }
+}
+#$testUsers = @("Bill","Jack","Harry")
+
+#ChangeInactiveUser($testUsers)
+#ChangeInactiveUser $testUsers
+
+#########################
+#### Other Functions ####
+#########################
+
+function UserNameValidation(){
+	param([array]$Users, [string]$individual)
+	
+	$userFound = $false
+	for ($i = 0; $i -lt $Users.Length; $i++){
+		if ($individual -eq $Users[$i].UserPrincipalName()){
+			$userFound = $true
+		}
+		else{
+			continue
+		}
+	}
+	if ($userFound){
+		return $true
+	}
+	else{
+		return $false
+	}
+
 }
 
-#Input Validations below - Ian
+#Error Handling Functions - Ian
 # Input Validation - Number of days for Inactive Status
 function inputInt(){
 	param ([string]$prompt)
@@ -90,7 +167,7 @@ function UserNameValidation(){
 # Main method area starts here
 do {
     Get-Menu
-    $choice = inputINt "Please Select a number: "   
+    $choice = inputInt "Please Select a number: "   
     switch ($choice) {
         '1' { # Josh 
             Write-Host "`nOption One"
@@ -105,12 +182,13 @@ do {
         }
         '3' {
             Write-Host " Option Three"
-	        Set-AllInactiveUsers
+	        Disable-AllInactiveUsers
 
         }
         '4' { #Luke
             Write-Host " Option Four"
-	        Set-InactiveUser
+	        Disable-InactiveUser
+
 
         }
         '0' {

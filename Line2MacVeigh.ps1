@@ -12,6 +12,6 @@ $users = Get-ADUser -Filter * -Properties LastLofonDate
 $inactiveUsers = $users | Where-Object { $_.LastLogonDate -lt $inactiveDate -or  !&_.LastLogonDate }
 
 # I think this should show the innactive users by name/ account name.
-$inactiveUsers | Select-Object Name, SamAccountName, LastLogonDate | Format-Table -AutoSize 
+$inactiveUsers | Select-Object Name, UserPrincipleName, LastLogonDate | Format-Table -AutoSize 
 
 

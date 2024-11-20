@@ -33,7 +33,7 @@ function Set-InactivePeriod{
 #Option 2 Function - Brittney
 function Get-InactiveUsers{
 	#Paste code here#
-    $inactiveUsers | Select-Object Name, SamAccountName, LastLogonDate | Format-Table -AutoSize
+    $inactiveUsers | Select-Object Name, UserPrincipalName, LastLogonDate | Format-Table -AutoSize
 }
 
 #Option 3 Function - 

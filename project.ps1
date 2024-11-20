@@ -38,7 +38,7 @@ function Set-InactivePeriod{
 #Option 2 Function - Brittney
 function Get-InactiveUsers{
 	#Paste code here#
-    $inactiveUsers | Select-Object Name, SamAccountName, LastLogonDate | Format-Table -AutoSize
+    $inactiveUsers | Select-Object UserPrincipalName, Enabled, LastLogonDate | Format-Table -AutoSize
 }
 
 #Option 3 Function - 
@@ -62,13 +62,13 @@ function Disable-InactiveUser{
 
     While($UserInput -ne "done"){
         $UInputSuccess = $false
-        While($UInputSuccess -eq $false){
+        <#While($UInputSuccess -eq $false){
             $UInputSuccess = UserNameValidation($UserInput)
             if $UInputSuccess -eq $false {
                 Write-Host "Error: User not found"
                 $UserInput = read-host "User $users.Length name: "
             }
-        }
+        }#>
         $users += $UserInput
         $UserInput = read-host "User "($users.Length + 1)" name: "
     }
@@ -82,12 +82,12 @@ function Disable-InactiveUser{
     if($UserAction -eq 1){
         foreach($U in $users){
             Disable-ADAccount -identity $U
-            Write-Host "'n$U's Account has been disabled`n"
+            Write-Host "$U's Account has been disabled"
 
             # Maybe we can incorporate 
             Get-ADUser -Filter "Name -Like '*$U*'" | ForEach-OBject{
-                Write-Host "Name: $($_.Name)"
-                Write-Host "Enabled: $($_.Enabled)`n"
+                 Write-Host "Name: $($_.Name)"
+                 Write-Host "Enabled: $($_.Enabled)`n"
             }
 
         }
